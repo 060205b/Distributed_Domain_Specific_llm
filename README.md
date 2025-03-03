@@ -120,12 +120,4 @@ This will generate an `onnx_model/` directory.
    ```
    http://<Laptop 1's IP>:8000
    ```
-2. Enter queries and verify chatbot responses.
 
----
-
-## Contributing
-Feel free to submit issues and pull requests to improve this project!
-
-## License
-This project is licensed under the MIT License.
