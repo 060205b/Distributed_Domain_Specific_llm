@@ -19,23 +19,41 @@ llm_project/
 
 **requirements.txt:**
 transformers
+
 torch
+
 torchvision
+
 torchaudio
+
 accelerate
+
 bitsandbytes
+
 peft
+
 fastapi
+
 uvicorn[standard]
+
 python-multipart
+
 datasets
+
 onnxruntime-gpu # Or onnxruntime, depending on GPU availability
+
 optimum
+
 deepspeed
+
 scipy
+
 scikit-learn
+
 pypdf2
+
 python-docx
+
 Jinja2
 
 
