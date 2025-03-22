@@ -16,7 +16,7 @@ This system is structured using a **client-server architecture**:
 
 ## ⚙️ System Specs
 
-- 🧠 **Model**: `distilbert-base-uncased` (can be swapped with larger models)
+- 🧠 **Model**: `facebook/opt-1.3b` (can be swapped with larger models)
 - 🌐 **Communication**: ZeroMQ sockets (REQ/REP)
 - 🖥️ **Clients**: 6 nodes doing real work (not mockups)
 - 📡 **Server**: Central orchestrator with logging
@@ -60,7 +60,7 @@ Shows model activity, client status, and system-wide controls.
 ![Demo_Screenshot](https://github.com/user-attachments/assets/9c3c6b11-9b26-4414-b05c-80cee1bc737d)
 
 # Table View
-Displays history of questions asked and their answers. 
+Displays the distributed training configuration: model name, dataset used, epochs, batch size, and other relevant training metadata per client.  
 
 ![Demo_Screenshot1](https://github.com/user-attachments/assets/34e04d69-a0d7-404b-a65e-e257616a9159)
 
