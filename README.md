@@ -1,75 +1,142 @@
-Distributed Domain specific(Medical) Language Model System
+# Distributed Medical LLM System
 
-MediLLM is a distributed training and inference system designed to simulate a large language model (LLM) pipeline for medical question answering. Built with a client-server architecture, this project uses ZeroMQ to coordinate communication across a network of machines, allowing parallel simulation of model training and response generation.
-
-> ⚕️ **Use Case**: Demonstrating how distributed systems can be applied to train and deploy LLMs for specialized domains like healthcare.
+This project implements a **Distributed Medical Language Model (LLM)** system using a client-server architecture. The goal is to perform real-time training and inference on medical question-answering tasks by distributing the workload across multiple machines. Each client node runs a real transformer model, coordinated centrally by a server.
 
 ---
 
 ## 🚀 Project Overview
 
-This project simulates distributed training of a medical question-answering LLM across multiple machines. It involves a centralized **server** that coordinates model setup, training, and inference by communicating with **multiple clients** using ZeroMQ. Each client performs tasks such as model loading, simulated training, and inference.
+The system leverages distributed computing to train and run a medical Q&A model across multiple machines using **ZeroMQ** for communication. It is designed to demonstrate how real transformer-based LLMs can be fine-tuned and queried in a distributed setup.
 
-- 💻 **Total Machines**: 7  
-  - 🧠 1 Server (controller)
-  - 📡 6 Clients (workers)
-
-- 🧠 **Model Simulated**: `facebook/opt-1.3b` (simulated only)
-- ⚙️ **Communication Protocol**: ZeroMQ (PUSH/PULL sockets)
-- 🌐 **UI**: Custom dashboard built with HTML/CSS/JS
-- 📄 **Dataset**: Pre-built medical Q&A used for simulation
+- 🧠 **Model Used**: `distilbert-base-uncased`
+- 🖥️ **Distributed Setup**:
+  - 1 Server (controller)
+  - 6 Clients (workers)
+- 🔗 **Communication Protocol**: ZeroMQ
+- 💬 **Frontend**: HTML-based dashboard for control & visualization
+- 📚 **Dataset**: Preloaded Q&A pairs for training (can be extended)
 
 ---
 
-## 📷 Demo Screenshots
+## 🧱 Architecture
 
-> Add your actual screenshots inside a `screenshots/` folder in your repo.
+```bash
+📡 Server
+ ├── Sends setup, training, and inference commands
+ ├── Receives results from all clients
+ └── Displays logs & status updates
 
-### 🖥️ Dashboard UI
-![Dashboard Overview](screenshots/dashboard.png)
-
-### 📊 Training Progress
-![Training Simulation](screenshots/training.png)
-
-### 💬 Inference Mode
-![Medical Q&A Chat](screenshots/inference.png)
+🧠 Clients (x6)
+ ├── Load transformer model
+ ├── Fine-tune on provided medical data
+ ├── Respond to inference queries
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```bash
-├── client.py             # Client-side script to simulate training/inference
-├── server.py             # Server-side controller script
-├── test.py               # Script to test connectivity between server and client
-├── index.html            # Frontend dashboard for system control and monitoring
-├── server_debug.log      # Sample logs for debugging          
-└── README.md
+├── client.py           # Real training + inference client
+├── server.py           # Main controller to manage all clients
+├── test.py             # Utility to send a test inference to a client
+├── index.html          # Dashboard UI
+├── server_debug.log    # Sample log file from the server
+├── README.md           # This file
 ```
 
-## How It Works
+---
 
-1. Server discovers clients on the local network using IP scanning.
-2. It distributes setup info (model name, mode, etc.) to clients.
-3. Each client simulates:
-   - Model loading (with delay to mimic GPU prep)
-   - Training across multiple epochs
-   - Reporting back simulated loss and validation accuracy
-4. Server logs training and transitions into inference mode.
-5. Medical questions can be asked via terminal or dashboard.
-6. Clients simulate an answer generation process and respond back.
+## 🔧 Technologies Used
 
-## Features
+- **Python 3**
+- **HuggingFace Transformers** (`distilbert-base-uncased`)
+- **Datasets** (for Q&A)
+- **PyTorch**
+- **ZeroMQ** (for messaging)
+- **HTML/CSS/JS** (UI dashboard)
 
-✔️ Distributed computing using ZeroMQ (PUSH/PULL model)
-✔️ Simulated training with logs, loss calculation, and validation accuracy
-✔️ Inference mode for real-time medical Q&A interaction
-✔️ Frontend dashboard for status visualization and interaction
-✔️ Fault-tolerance simulation (e.g., simulated memory errors)
-✔️ Clear client-server separation for scalability
+---
 
-## Running the Project
+## 💬 Sample Questions Supported
 
-# 1. Install Dependencies
-pip install pyzmq
+```text
+- What is diabetes?
+- What are the symptoms of a heart attack?
+- How does the COVID-19 vaccine work?
+- What causes high blood pressure?
+- What is Alzheimer’s disease?
+```
 
+---
+
+## 🎯 Features
+
+- ✅ Distributed transformer model training
+- ✅ Real-time inference from multiple nodes
+- ✅ ZeroMQ-based message passing
+- ✅ Dashboard for question input and logs
+- ✅ Logging and test utilities
+
+---
+
+## 🛠️ How to Run
+
+### 1. Install Requirements
+```bash
+pip install transformers datasets torch pyzmq
+```
+
+### 2. Start Clients (on each of the 6 client machines)
+```bash
+python client.py --port 5555 --server_ip <server-ip>
+```
+
+### 3. Start Server
+```bash
+python server.py --client_ips 192.168.1.101 192.168.1.102 ...
+```
+
+### 4. Launch Dashboard
+Just open `index.html` in your browser to interact with the system.
+
+### 5. Run Test
+```bash
+python test.py --client <client-ip> --question "What is diabetes?"
+```
+
+---
+
+## 📷 Screenshot
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 🐛 Known Issues
+
+- If `bitsandbytes` isn't installed, quantized model loading may fail (not needed for distilbert).
+- Some clients may not connect if network config is incorrect.
+- Inference must be triggered after all clients are marked ready.
+
+---
+
+## 📌 Future Enhancements
+
+- Web API layer for frontend-backend connection
+- Docker containers for easier deployment
+- Advanced model options (e.g., Mistral, LLaMA)
+- Automatic data sharding across clients
+
+---
+
+## 👨‍💻 Contributors
+
+- **Lead Developer**: [Your Name Here]
+- **Team**: [Add team members if applicable]
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. Feel free to use, adapt, and contribute!
