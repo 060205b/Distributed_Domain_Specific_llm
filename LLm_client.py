@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import zmq
 import logging
 import time
@@ -9,255 +8,203 @@ import argparse
 import signal
 import sys
 
+from transformers import (
+    AutoTokenizer,
+    AutoModelForSequenceClassification,
+    Trainer,
+    TrainingArguments,
+    pipeline
+)
+from datasets import Dataset
+import torch
+
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-class DemoLLMClient:
+class RealLLMClient:
     def __init__(self, listen_port=5555, server_ip="192.168.1.100", data_dir="./client_data"):
-        """Initialize the demo LLM client"""
         self.listen_port = listen_port
         self.server_ip = server_ip
         self.data_dir = data_dir
         os.makedirs(self.data_dir, exist_ok=True)
-        
-        # Create ZeroMQ context and sockets
+
         self.context = zmq.Context()
-        
-        # Command socket (for receiving commands from server)
+
         self.command_socket = self.context.socket(zmq.PULL)
         self.command_socket.bind(f"tcp://*:{listen_port}")
-        
-        # Result socket (for sending results to server)
+
         self.result_socket = self.context.socket(zmq.PUSH)
         self.result_socket.connect(f"tcp://{server_ip}:5557")
-        
-        # Client state
+
         self.client_id = None
         self.total_clients = None
-        self.model_name = None
+        self.model_name = "distilbert-base-uncased"
         self.mode = None
-        
-        # Set up signal handlers
+        self.model = None
+        self.tokenizer = None
+
         signal.signal(signal.SIGINT, self.handle_interrupt)
-        
+
         logger.info(f"Client initialized, listening on port {listen_port}")
-    
+
     def handle_interrupt(self, signum, frame):
-        """Handle interrupt signals gracefully"""
         logger.info(f"Received signal {signum}, shutting down...")
         sys.exit(0)
-    
+
     def run(self):
-        """Run the client, simulating processing commands from the server"""
-        logger.info("Client starting, waiting for commands...")
-        
+        logger.info("Client waiting for commands...")
         running = True
+
         while running:
             try:
-                # Wait for a command from the server
                 command = self.command_socket.recv_json()
                 cmd = command.get('command')
-                
+
                 if cmd == 'setup':
                     self.handle_setup(command)
                 elif cmd == 'csv_data':
-                    self.simulate_csv_data(command)
+                    self.load_csv_data()
                 elif cmd == 'train':
-                    self.simulate_training(command)
+                    self.train_model(command)
                 elif cmd == 'prepare_inference':
-                    self.simulate_prepare_inference(command)
+                    self.prepare_inference()
                 elif cmd == 'infer':
-                    self.simulate_inference(command)
+                    self.run_inference(command)
                 elif cmd == 'shutdown':
                     logger.info("Received shutdown command")
                     running = False
                 else:
                     logger.warning(f"Unknown command: {cmd}")
-            
+
             except KeyboardInterrupt:
                 logger.info("Client interrupted by user")
                 running = False
             except Exception as e:
-                logger.error(f"Error processing command: {e}")
-                # Continue running despite errors
-        
+                logger.error(f"Error in client run loop: {e}")
+
         logger.info("Client shutting down")
-    
+
     def handle_setup(self, command):
-        """Handle initial setup command from server"""
-        self.model_name = command.get('model_name')
+        self.model_name = command.get('model_name', self.model_name)
         self.mode = command.get('mode')
         self.client_id = command.get('client_id')
         self.total_clients = command.get('total_clients')
-        
-        logger.info(f"Received setup command: model={self.model_name}, mode={self.mode}")
-        logger.info(f"I am client {self.client_id} of {self.total_clients}")
-        
-        # Simulate model loading
-        logger.info(f"Loading model {self.model_name}...")
-        
-        # Simulate loading steps
-        logger.info("Initializing model parameters...")
-        time.sleep(1)
-        
-        logger.info("Loading tokenizer...")
-        time.sleep(0.5)
-        
-        logger.info("Moving model to GPU...")
-        time.sleep(1.5)
-        
-        # Tell server we're ready
-        logger.info("Model loaded successfully")
+
+        logger.info(f"Setup received: model={self.model_name}, mode={self.mode}")
+        logger.info("Loading tokenizer and model...")
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name, num_labels=2)
+        logger.info("Model ready.")
+
         self.result_socket.send_json({
             'command': 'ready',
             'client_id': self.client_id
         })
-    
-    def simulate_csv_data(self, command):
-        """Simulate receiving CSV data"""
-        logger.info("Receiving medical dataset from server")
-        
-        # Simulate file saving
-        time.sleep(0.5)
-        logger.info("Dataset saved to client_data/medical_qa.csv")
-        
-        # Create a simulated CSV file
-        os.makedirs(self.data_dir, exist_ok=True)
-        with open(os.path.join(self.data_dir, "medical_qa.csv"), "w") as f:
-            f.write("type,question,answer\n")
-            f.write("medical,What is diabetes?,Diabetes is a chronic condition...\n")
-            f.write("medical,What are the symptoms of a heart attack?,Common symptoms include...\n")
-            # Add more simulated rows
-        
-        # Log sample info
-        logger.info("Dataset contains 100 medical Q&A pairs")
-        logger.info("Sample: Q: What is diabetes? A: Diabetes is a chronic condition...")
-    
-    def simulate_training(self, command):
-        """Simulate training process"""
-        logger.info("Starting training process")
-        epochs = command.get('epochs', 3)
-        
+
+    def load_csv_data(self):
+        logger.info("Simulating CSV load with basic examples...")
+        filepath = os.path.join(self.data_dir, "medical_qa.csv")
+        with open(filepath, "w") as f:
+            f.write("question,answer,label\n")
+            f.write("What is diabetes?,A chronic condition,1\n")
+            f.write("How does COVID vaccine work?,Triggers immunity,0\n")
+        logger.info("CSV dataset saved")
+
+    def train_model(self, command):
+        logger.info("Beginning actual training...")
+        epochs = command.get("epochs", 3)
+
         try:
-            # Simulate dataset preparation
-            logger.info("Preparing dataset...")
-            time.sleep(1)
-            logger.info("Tokenizing examples...")
-            time.sleep(1)
-            
-            # Simulate CUDA issues first time (will succeed on retry)
-            if random.random() < 0.5 and not os.path.exists(os.path.join(self.data_dir, "retry_flag")):
-                # Create a flag file to avoid repeating the error
-                with open(os.path.join(self.data_dir, "retry_flag"), "w") as f:
-                    f.write("retry_attempted")
-                    
-                logger.error("CUDA out of memory. Attempting to recover...")
-                time.sleep(1)
-                logger.info("Reducing batch size and enabling gradient checkpointing")
-                time.sleep(1)
-                
-                self.result_socket.send_json({
-                    'command': 'training_error',
-                    'client_id': self.client_id,
-                    'error': "Training failed, see client logs for details"
-                })
-                return
-            
-            # Simulate successful training
-            logger.info(f"Starting training for {epochs} epochs...")
-            
-            # Simulate GPU memory usage
-            memory_usage = random.uniform(2.5, 3.2)
-            logger.info(f"GPU Memory allocated: {memory_usage:.2f} GB")
-            
-            # Notify server that training is complete
+            data = {
+                "question": ["What is diabetes?", "How does COVID vaccine work?"],
+                "answer": ["A chronic condition", "Triggers immune response"],
+                "label": [1, 0]
+            }
+            dataset = Dataset.from_dict(data)
+
+            def preprocess(example):
+                return self.tokenizer(example["question"], truncation=True, padding="max_length")
+
+            tokenized = dataset.map(preprocess)
+            split = tokenized.train_test_split(test_size=0.2)
+
+            training_args = TrainingArguments(
+                output_dir="./model_output",
+                per_device_train_batch_size=4,
+                num_train_epochs=epochs,
+                evaluation_strategy="epoch",
+                logging_dir="./logs",
+                save_strategy="no",
+                report_to="none"
+            )
+
+            trainer = Trainer(
+                model=self.model,
+                args=training_args,
+                train_dataset=split["train"],
+                eval_dataset=split["test"]
+            )
+
+            trainer.train()
+            trainer.save_model("./model_output")
+            logger.info("Training finished!")
+
             self.result_socket.send_json({
                 'command': 'training_complete',
                 'client_id': self.client_id
             })
-            
+
         except Exception as e:
-            logger.error(f"Error during training simulation: {e}")
-            # Notify server of failure
+            logger.error(f"Training failed: {e}")
             self.result_socket.send_json({
                 'command': 'training_error',
                 'client_id': self.client_id,
                 'error': str(e)
             })
-    
-    def simulate_prepare_inference(self, command):
-        """Simulate preparing for inference"""
+
+    def prepare_inference(self):
         logger.info("Preparing for inference...")
-        
-        # Simulate loading model for inference
-        logger.info("Loading trained medical model...")
-        time.sleep(1.5)
-        logger.info("Setting model to evaluation mode")
-        time.sleep(0.5)
-        
-        # Notify server we're ready for inference
+        if self.model is None:
+            self.model = AutoModelForSequenceClassification.from_pretrained("./model_output")
+        if self.tokenizer is None:
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+
+        logger.info("Model loaded and ready for inference")
+
         self.result_socket.send_json({
             'command': 'inference_ready',
             'client_id': self.client_id
         })
-    
-    def simulate_inference(self, command):
-        """Simulate inference request"""
+
+    def run_inference(self, command):
         user_input = command.get('input', '')
-        logger.info(f"Received inference request: {user_input[:50]}...")
-        
+        logger.info(f"Inference request: {user_input}")
+
         try:
-            # Simulate processing
-            logger.info("Tokenizing input...")
-            time.sleep(0.2)
-            
-            logger.info("Running model inference...")
-            time.sleep(random.uniform(0.5, 1.5))
-            
-            logger.info("Decoding output...")
-            time.sleep(0.2)
-            
-            # Simulated response (this won't be used, the server has the actual responses)
-            output_text = "Based on medical knowledge, this involves a complex interaction of factors..."
-            
-            # Send response to server
+            clf = pipeline("text-classification", model=self.model, tokenizer=self.tokenizer)
+            result = clf(user_input)[0]
+            logger.info(f"Inference output: {result}")
+
             self.result_socket.send_json({
                 'command': 'inference_result',
                 'client_id': self.client_id,
-                'output': output_text
+                'output': f"Prediction: {result['label']} (confidence: {result['score']:.2f})"
             })
-            
+
         except Exception as e:
-            logger.error(f"Error during inference: {e}")
-            # Send error to server
+            logger.error(f"Inference error: {e}")
             self.result_socket.send_json({
                 'command': 'inference_error',
                 'client_id': self.client_id,
                 'error': str(e)
             })
 
-def main():
-    # Parse command line arguments
-    parser = argparse.ArgumentParser(description="Demo LLM Client")
-    parser.add_argument("--port", type=int, default=5555,
-                      help="Port to listen on")
-    parser.add_argument("--server", default="192.168.1.100",
-                      help="Server IP address")
-    parser.add_argument("--data-dir", default="./client_data",
-                      help="Directory to store data")
-    
-    args = parser.parse_args()
-    
-    # Create client
-    client = DemoLLMClient(
-        listen_port=args.port,
-        server_ip=args.server,
-        data_dir=args.data_dir
-    )
-    
-    # Run client
-    client.run()
-
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Real LLM Client")
+    parser.add_argument("--port", type=int, default=5555)
+    parser.add_argument("--server_ip", type=str, default="192.168.1.100")
+    args = parser.parse_args()
+
+    client = RealLLMClient(listen_port=args.port, server_ip=args.server_ip)
+    client.run()
