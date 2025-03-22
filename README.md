@@ -1,84 +1,77 @@
-# Distributed Medical LLM System
+# 🧠 Distributed Medical LLM System
 
-This project implements a **Distributed Medical Language Model (LLM)** system using a client-server architecture. The goal is to perform real-time training and inference on medical question-answering tasks by distributing the workload across multiple machines. Each client node runs a real transformer model, coordinated centrally by a server.
+A distributed medical question-answering system that runs real-time training and inference of transformer models across multiple machines. Built using **ZeroMQ**, **HuggingFace Transformers**, and a custom **HTML-based dashboard**, this setup demonstrates a scalable LLM micro-infrastructure tailored for healthcare Q&A.
 
 ---
 
 ## 🚀 Project Overview
 
-The system leverages distributed computing to train and run a medical Q&A model across multiple machines using **ZeroMQ** for communication. It is designed to demonstrate how real transformer-based LLMs can be fine-tuned and queried in a distributed setup.
+This system is structured using a **client-server architecture**:
 
-- 🧠 **Model Used**: `distilbert-base-uncased`
-- 🖥️ **Distributed Setup**:
-  - 1 Server (controller)
-  - 6 Clients (workers)
-- 🔗 **Communication Protocol**: ZeroMQ
-- 💬 **Frontend**: HTML-based dashboard for control & visualization
-- 📚 **Dataset**: Preloaded Q&A pairs for training (can be extended)
+- **Server**: Sends instructions, receives model results, monitors system health.
+- **Clients (x6)**: Load a real transformer model, train on medical Q&A data, respond to inference queries.
+- **Frontend**: Browser-based dashboard for user input, status monitoring, and result display.
 
 ---
 
-## 🧱 Architecture
+## ⚙️ System Specs
+
+- 🧠 **Model**: `distilbert-base-uncased` (can be swapped with larger models)
+- 🌐 **Communication**: ZeroMQ sockets (REQ/REP)
+- 🖥️ **Clients**: 6 nodes doing real work (not mockups)
+- 📡 **Server**: Central orchestrator with logging
+- 🧾 **Dataset**: Predefined medical Q&A pairs
+- 💻 **Frontend**: HTML/CSS + JS Dashboard (for triggering & visualizing inference)
+
+---
+
+## 📁 Updated Project Structure
 
 ```bash
-📡 Server
- ├── Sends setup, training, and inference commands
- ├── Receives results from all clients
- └── Displays logs & status updates
-
-🧠 Clients (x6)
- ├── Load transformer model
- ├── Fine-tune on provided medical data
- ├── Respond to inference queries
+project-root/
+│
+├── client.py              # Handles model loading, training, and inference
+├── server.py              # Controls clients, coordinates training/inference
+├── test.py                # Utility script for testing single-client inference
+│
+├── index.html             # UI dashboard for sending questions and viewing results
+├── server_debug.log       # Server logs for debugging/tracking
+│
+├── static/
+│   ├── css/               # (Optional) Styling for the dashboard
+│   └── js/                # JS logic for dashboard interactivity
+│
+├── screenshots/           # UI snapshots of system in action
+│   ├── Dashboard.png
+│   ├── Dashboard2.png
+│   ├── Form.png
+│   ├── Table.png
+│   ├── DetailView.png
+│   └── Modal.png
+│
+└── README.md              # This file
 ```
 
----
+## UI Snapshots
 
-## 📁 Project Structure
+#  Dashboard View
+![Demo_Screenshot](https://github.com/user-attachments/assets/9c3c6b11-9b26-4414-b05c-80cee1bc737d)
 
-```bash
-├── client.py           # Real training + inference client
-├── server.py           # Main controller to manage all clients
-├── test.py             # Utility to send a test inference to a client
-├── index.html          # Dashboard UI
-├── server_debug.log    # Sample log file from the server
-├── README.md           # This file
-```
+# Table View
+![Demo_Screenshot1](https://github.com/user-attachments/assets/34e04d69-a0d7-404b-a65e-e257616a9159)
 
----
+# Detail View
+![Demo_Screenshot2](https://github.com/user-attachments/assets/d7bcc271-8271-47f2-be5c-e22ccb1d4a7b)
 
-## 🔧 Technologies Used
+# Form Page 
+![Demo_Screenshot3](https://github.com/user-attachments/assets/77305fa0-b016-4ec4-92d1-54992c92318c)
 
-- **Python 3**
-- **HuggingFace Transformers** (`distilbert-base-uncased`)
-- **Datasets** (for Q&A)
-- **PyTorch**
-- **ZeroMQ** (for messaging)
-- **HTML/CSS/JS** (UI dashboard)
+# Modal (Popup) 
+![Demo_Screenshot4](https://github.com/user-attachments/assets/3bc1a998-8f59-4291-ab6b-da91fffe106f)
 
----
-
-## 💬 Sample Questions Supported
-
-```text
-- What is diabetes?
-- What are the symptoms of a heart attack?
-- How does the COVID-19 vaccine work?
-- What causes high blood pressure?
-- What is Alzheimer’s disease?
-```
-
----
-
-## 🎯 Features
-
-- ✅ Distributed transformer model training
-- ✅ Real-time inference from multiple nodes
-- ✅ ZeroMQ-based message passing
-- ✅ Dashboard for question input and logs
-- ✅ Logging and test utilities
-
----
+# Dashboard Analytics 
+![Demo_Screenshot6](https://github.com/user-attachments/assets/83578baf-19f2-4b11-891f-0503ec33b759)
+![Demo_Screenshot5](https://github.com/user-attachments/assets/1bee894f-a2b8-4667-ba27-393609fc7d00)
 
 ## 🛠️ How to Run
 
@@ -107,9 +100,41 @@ python test.py --client <client-ip> --question "What is diabetes?"
 
 ---
 
-## 📷 Screenshot
+## 🖼️ UI Snapshots
 
-![Dashboard](screenshots/dashboard.png)
+#### 🔧 Dashboard View *(Screenshot: `Demo_Screenshot.png`)*
+Shows model activity, client status, and system-wide controls.  
+![Dashboard](./screenshots/Demo_Screenshot.png)
+
+---
+
+#### 📋 Table View *(Screenshot: `Demo_Screenshot1.png`)*
+Displays history of questions asked and their answers.  
+![Table](./screenshots/Demo_Screenshot1.png)
+
+---
+
+#### 📄 Detail View *(Screenshot: `Demo_Screenshot2.png`)*
+Expanded single Q&A record with model response details.  
+![Detail View](./screenshots/Demo_Screenshot2.png)
+
+---
+
+#### ➕ Form Page *(Screenshot: `Demo_Screenshot3.png`)*
+For submitting new questions or test cases.  
+![Form Page](./screenshots/Demo_Screenshot3.png)
+
+---
+
+#### 💬 Modal (Popup) *(Screenshot: `Demo_Screenshot4.png`)*
+Used for client status alerts or response previews.  
+![Modal](./screenshots/Demo_Screenshot4.png)
+
+---
+
+#### 📊 Dashboard Analytics (Alt View) *(Screenshot: `Demo_Screenshot5.png`)*
+Widget-based view of client connections, model load, and activity logs.  
+![Alt Dashboard](./screenshots/Demo_Screenshot5.png)
 
 ---
 
