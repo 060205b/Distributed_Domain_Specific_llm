@@ -55,21 +55,33 @@ project-root/
 ## UI Snapshots
 
 #  Dashboard View
+Shows model activity, client status, and system-wide controls.  
+
 ![Demo_Screenshot](https://github.com/user-attachments/assets/9c3c6b11-9b26-4414-b05c-80cee1bc737d)
 
 # Table View
+Displays history of questions asked and their answers. 
+
 ![Demo_Screenshot1](https://github.com/user-attachments/assets/34e04d69-a0d7-404b-a65e-e257616a9159)
 
 # Detail View
+Expanded single Q&A record with model response details.  
+
 ![Demo_Screenshot2](https://github.com/user-attachments/assets/d7bcc271-8271-47f2-be5c-e22ccb1d4a7b)
 
 # Form Page 
+For submitting new questions or test cases.  
+
 ![Demo_Screenshot3](https://github.com/user-attachments/assets/77305fa0-b016-4ec4-92d1-54992c92318c)
 
 # Modal (Popup) 
+Used for client status alerts or response previews.  
+
 ![Demo_Screenshot4](https://github.com/user-attachments/assets/3bc1a998-8f59-4291-ab6b-da91fffe106f)
 
 # Dashboard Analytics 
+Widget-based view of client connections, model load, and activity logs.  
+
 ![Demo_Screenshot6](https://github.com/user-attachments/assets/83578baf-19f2-4b11-891f-0503ec33b759)
 ![Demo_Screenshot5](https://github.com/user-attachments/assets/1bee894f-a2b8-4667-ba27-393609fc7d00)
 
@@ -97,46 +109,6 @@ Just open `index.html` in your browser to interact with the system.
 ```bash
 python test.py --client <client-ip> --question "What is diabetes?"
 ```
-
----
-
-## 🖼️ UI Snapshots
-
-#### 🔧 Dashboard View *(Screenshot: `Demo_Screenshot.png`)*
-Shows model activity, client status, and system-wide controls.  
-![Dashboard](./screenshots/Demo_Screenshot.png)
-
----
-
-#### 📋 Table View *(Screenshot: `Demo_Screenshot1.png`)*
-Displays history of questions asked and their answers.  
-![Table](./screenshots/Demo_Screenshot1.png)
-
----
-
-#### 📄 Detail View *(Screenshot: `Demo_Screenshot2.png`)*
-Expanded single Q&A record with model response details.  
-![Detail View](./screenshots/Demo_Screenshot2.png)
-
----
-
-#### ➕ Form Page *(Screenshot: `Demo_Screenshot3.png`)*
-For submitting new questions or test cases.  
-![Form Page](./screenshots/Demo_Screenshot3.png)
-
----
-
-#### 💬 Modal (Popup) *(Screenshot: `Demo_Screenshot4.png`)*
-Used for client status alerts or response previews.  
-![Modal](./screenshots/Demo_Screenshot4.png)
-
----
-
-#### 📊 Dashboard Analytics (Alt View) *(Screenshot: `Demo_Screenshot5.png`)*
-Widget-based view of client connections, model load, and activity logs.  
-![Alt Dashboard](./screenshots/Demo_Screenshot5.png)
-
----
 
 ## 🐛 Known Issues
 
