@@ -1,0 +1,258 @@
+2025-03-13 03:34:46,316 - __main__ - INFO - No clients specified, attempting auto-detection...
+2025-03-13 03:34:46,316 - __main__ - INFO - Scanning network for potential clients...
+2025-03-13 03:34:46,316 - __main__ - INFO - Scanning IP range: 192.168.1.0/24
+2025-03-13 03:34:46,470 - __main__ - INFO - Found potential client at 192.168.1.102:5555
+2025-03-13 03:34:47,471 - __main__ - INFO - Auto-detected 1 potential clients
+2025-03-13 03:34:47,473 - __main__ - INFO - Testing basic connectivity to client at 192.168.1.102:5555
+2025-03-13 03:34:47,474 - __main__ - INFO - Network connectivity to 192.168.1.102:5555 confirmed
+2025-03-13 03:34:47,474 - __main__ - INFO - Connecting to client 3 at 192.168.1.102:5555
+2025-03-13 03:34:47,547 - __main__ - DEBUG - Raw response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:34:47,547 - __main__ - WARNING - Unexpected response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:34:47,547 - __main__ - WARNING - No clients connected successfully!
+2025-03-13 03:38:10,423 - __main__ - INFO - Starting training mode...
+2025-03-13 03:38:10,423 - __main__ - INFO - Starting distributed training process...
+2025-03-13 03:38:10,423 - __main__ - INFO - Loading model: mistralai/Mistral-7B-Instruct-v0.2
+2025-03-13 03:38:11,330 - __main__ - ERROR - Error loading model: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:38:11,331 - __main__ - ERROR - Error in server execution: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 1021, in main
+    success = server.run_training()
+  File "/home/levii/Downloads/c/server.py", line 729, in run_training
+    self.load_model(for_training=True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:39:13,452 - __main__ - INFO - No clients specified, attempting auto-detection...
+2025-03-13 03:39:13,452 - __main__ - INFO - Scanning network for potential clients...
+2025-03-13 03:39:13,453 - __main__ - INFO - Scanning IP range: 192.168.1.0/24
+2025-03-13 03:39:13,455 - __main__ - INFO - Found potential client at 192.168.1.102:5555
+2025-03-13 03:39:14,456 - __main__ - INFO - Auto-detected 1 potential clients
+2025-03-13 03:39:14,458 - __main__ - INFO - Testing basic connectivity to client at 192.168.1.102:5555
+2025-03-13 03:39:14,459 - __main__ - INFO - Network connectivity to 192.168.1.102:5555 confirmed
+2025-03-13 03:39:14,459 - __main__ - INFO - Connecting to client 3 at 192.168.1.102:5555
+2025-03-13 03:39:14,567 - __main__ - DEBUG - Raw response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:14,567 - __main__ - WARNING - Unexpected response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:14,567 - __main__ - WARNING - No clients connected successfully!
+2025-03-13 03:39:17,888 - __main__ - INFO - Starting training mode...
+2025-03-13 03:39:17,889 - __main__ - INFO - Starting distributed training process...
+2025-03-13 03:39:17,889 - __main__ - INFO - Loading model: mistralai/Mistral-7B-Instruct-v0.2
+2025-03-13 03:39:18,870 - __main__ - ERROR - Error loading model: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:39:18,871 - __main__ - ERROR - Error in server execution: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 1021, in main
+    success = server.run_training()
+  File "/home/levii/Downloads/c/server.py", line 729, in run_training
+    self.load_model(for_training=True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:39:26,909 - __main__ - INFO - No clients specified, attempting auto-detection...
+2025-03-13 03:39:26,909 - __main__ - INFO - Scanning network for potential clients...
+2025-03-13 03:39:26,909 - __main__ - INFO - Scanning IP range: 192.168.1.0/24
+2025-03-13 03:39:26,911 - __main__ - INFO - Found potential client at 192.168.1.102:5555
+2025-03-13 03:39:27,913 - __main__ - INFO - Auto-detected 1 potential clients
+2025-03-13 03:39:27,914 - __main__ - INFO - Testing basic connectivity to client at 192.168.1.102:5555
+2025-03-13 03:39:27,916 - __main__ - INFO - Network connectivity to 192.168.1.102:5555 confirmed
+2025-03-13 03:39:27,916 - __main__ - INFO - Connecting to client 3 at 192.168.1.102:5555
+2025-03-13 03:39:28,052 - __main__ - DEBUG - Raw response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:28,052 - __main__ - WARNING - Unexpected response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:28,052 - __main__ - WARNING - No clients connected successfully!
+2025-03-13 03:39:29,350 - __main__ - INFO - Starting training mode...
+2025-03-13 03:39:29,350 - __main__ - INFO - Starting distributed training process...
+2025-03-13 03:39:29,350 - __main__ - INFO - Loading model: mistralai/Mistral-7B-Instruct-v0.2
+2025-03-13 03:39:30,254 - __main__ - ERROR - Error loading model: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:39:30,255 - __main__ - ERROR - Error in server execution: No package metadata was found for bitsandbytes
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 407, in from_name
+    return next(iter(cls.discover(name=name)))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/levii/Downloads/c/server.py", line 1021, in main
+    success = server.run_training()
+  File "/home/levii/Downloads/c/server.py", line 729, in run_training
+    self.load_model(for_training=True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/levii/Downloads/c/server.py", line 188, in load_model
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+    ...<2 lines>...
+        bnb_4bit_use_double_quant=True
+    )
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 433, in __init__
+    self.post_init()
+    ~~~~~~~~~~~~~~^^
+  File "/home/levii/Downloads/c/.venv/lib/python3.13/site-packages/transformers/utils/quantization_config.py", line 491, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 987, in version
+    return distribution(distribution_name).version
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 960, in distribution
+    return Distribution.from_name(distribution_name)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 409, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for bitsandbytes
+2025-03-13 03:39:39,361 - __main__ - INFO - No clients specified, attempting auto-detection...
+2025-03-13 03:39:39,361 - __main__ - INFO - Scanning network for potential clients...
+2025-03-13 03:39:39,361 - __main__ - INFO - Scanning IP range: 192.168.1.0/24
+2025-03-13 03:39:39,362 - __main__ - INFO - Found potential client at 192.168.1.102:5555
+2025-03-13 03:39:40,364 - __main__ - INFO - Auto-detected 1 potential clients
+2025-03-13 03:39:40,365 - __main__ - INFO - Testing basic connectivity to client at 192.168.1.102:5555
+2025-03-13 03:39:40,367 - __main__ - INFO - Network connectivity to 192.168.1.102:5555 confirmed
+2025-03-13 03:39:40,367 - __main__ - INFO - Connecting to client 3 at 192.168.1.102:5555
+2025-03-13 03:39:40,468 - __main__ - DEBUG - Raw response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:40,469 - __main__ - WARNING - Unexpected response from client 3: {'command': 'pong', 'client_id': 1, 'status': 'ready', 'mode': None}
+2025-03-13 03:39:40,469 - __main__ - WARNING - No clients connected successfully!
+2025-03-13 03:39:42,721 - __main__ - INFO - Starting inference mode...
+2025-03-13 03:39:45,173 - __main__ - INFO - Starting distributed inference for input: 
+2025-03-13 03:39:45,174 - __main__ - ERROR - No clients connected. Cannot proceed with inference.
+2025-03-13 03:39:48,292 - __main__ - INFO - Starting distributed inference for input: hi
+2025-03-13 03:39:48,292 - __main__ - ERROR - No clients connected. Cannot proceed with inference.
+2025-03-13 03:40:02,750 - __main__ - INFO - Closing server...
+2025-03-13 03:40:02,750 - __main__ - INFO - Client 3 network stats: avg ping 0.00ms, 0 successes, 0 failures
+2025-03-13 03:40:02,750 - __main__ - DEBUG - Closing socket for client 3
+2025-03-13 03:40:02,804 - __main__ - INFO - Server closed
+2025-03-13 03:40:02,804 - __main__ - INFO - Program completed successfully
