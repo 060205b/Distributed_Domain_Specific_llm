@@ -1,8 +1,4 @@
-# ========================
-# Full server.py (Real training + inference)
-# ========================
 
-#!/usr/bin/env python3
 import zmq
 import logging
 import time
@@ -53,7 +49,7 @@ class RealLLMServer:
         for client in self.clients:
             self.send_command(client['id'], {
                 "command": "setup",
-                "model_name": "distilbert-base-uncased",
+                "model_name": "facebook/opt-1.3b",
                 "mode": "train",
                 "client_id": client['id'],
                 "total_clients": len(self.clients)
