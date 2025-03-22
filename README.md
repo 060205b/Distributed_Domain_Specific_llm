@@ -125,15 +125,6 @@ python test.py --client <client-ip> --question "What is diabetes?"
 - Advanced model options (e.g., Mistral, LLaMA)
 - Automatic data sharding across clients
 
----
-
-## 👨‍💻 Contributors
-
-- **Lead Developer**: [Your Name Here]
-- **Team**: [Add team members if applicable]
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License. Feel free to use, adapt, and contribute!
